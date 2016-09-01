@@ -1,22 +1,17 @@
 version: "1"
 services:
-#  database:
-#    image: postgres:9.5
-#    ports:
-#      - "5432:5432"
-#    environment:
-#      - "POSTGRES_PASSWORD: mysecretpassword"
+  database:
+    image: postgres:9.5
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
 
-  da:
+  daaaa:
     image: centos:7
-#    entrypoint:
-#      - /usr/local/bin/wait-for-it.sh
-#      - db:5432
-#      - /usr/bin/alm
-
-#    command: [""]  
-#    ports: 
-#      - "8080:8080"
-#    links:
-#      - database
-      
+    command: ["/usr/bin/alm", "-dbhost", "database"]
+    ports: 
+      - "8080:8080"
+    links:
+      - database
+ 
