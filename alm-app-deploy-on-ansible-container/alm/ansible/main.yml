@@ -52,9 +52,3 @@
              make build && \     
              cp  bin/alm /usr/bin/alm
 
-    - name: Add wait-for-it file
-      shell: cd /tmp; wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh 
-
-    - name: Copy the file and change the permission
-      shell: cp /tmp/wait-for-it.sh /usr/local/bin && \
-             chmod +x /usr/local/bin/wait-for-it.sh      
