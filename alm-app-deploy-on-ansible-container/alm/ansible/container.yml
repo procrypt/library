@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
 
-  daaaa:
+  alm-app:
     image: centos:7
     command: ["/usr/bin/alm", "-dbhost", "database"]
     ports: 

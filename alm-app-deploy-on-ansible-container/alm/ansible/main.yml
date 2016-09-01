@@ -1,4 +1,4 @@
-- hosts: da
+- hosts: alm-app
   tasks:
     - name: Install the packages
       yum:
@@ -30,7 +30,7 @@
     - name: Set GOPATH
       shell: echo 'export GOPATH=\$HOME/work' >> ~/.bash_profile && \
              echo 'export PATH=\$PATH:\$GOPATH/bin' >> ~/.bash_profile && \
-             echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.bash_profile
+             echo 'export PATH=\$PATH:/usr/local/go/bin' >> ~/.bash_profile
 
     - name: Export GOPATH
       shell: export GOPATH=$HOME/work && \
@@ -39,16 +39,18 @@
                    
 
     - name: Git clone the repo
-      shell: mkdir -p $GOPATH/src/github.com/almighty && \
+      shell: source ~/.bash_profile && \
+             mkdir -p $GOPATH/src/github.com/almighty && \
              cd $GOPATH/src/github.com/almighty && \
              git clone https://github.com/almighty/almighty-core 
       
-#    - name: Make build
-#      shell: cd $GOPATH/src/github.com/almighty/almighty-core && \
-#             make && \
-#             make generate && \
-#             make build && \     
-#             cp  bin/alm /usr/bin/alm
+    - name: Make build
+      shell: source ~/.bash_profile && \
+             cd $GOPATH/src/github.com/almighty/almighty-core && \
+             make && \
+             make generate && \
+             make build && \     
+             cp  bin/alm /usr/bin/alm
 
     - name: Add wait-for-it file
       shell: cd /tmp; wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh 
