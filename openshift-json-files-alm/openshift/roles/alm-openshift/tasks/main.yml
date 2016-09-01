@@ -1,0 +1,106 @@
+
+- oso_service:
+    service_name: alm-app
+    project_name: alm
+    labels:
+      app: alm
+      service: alm-app
+    ports:
+    - name: port-8080
+      port: 8080
+      targetPort: 8080
+    selector:
+      app: alm
+      service: alm-app
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_service:
+    service_name: database
+    project_name: alm
+    labels:
+      app: alm
+      service: database
+    ports:
+    - name: port-5432
+      port: 5432
+      targetPort: 5432
+    selector:
+      app: alm
+      service: database
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: alm
+    service_port: port-8080
+    labels:
+      app: alm
+      service: alm-app
+    route_name: alm-app-8080
+    replace: true
+    service_name: alm-app
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: alm
+    service_port: port-5432
+    labels:
+      app: alm
+      service: database
+    route_name: database-5432
+    replace: true
+    service_name: database
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: alm
+    labels:
+      app: alm
+      service: alm-app
+    deployment_name: alm-app
+    containers:
+    - securityContext: {}
+      name: alm-app
+      image: procrypto/alm-alm-app:20160901122122
+      args:
+      - /usr/bin/alm
+      - -dbhost
+      - database
+      ports:
+      - 8080
+    replace: true
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: alm
+    labels:
+      app: alm
+      service: database
+    deployment_name: database
+    containers:
+    - securityContext: {}
+      name: database
+      env:
+        POSTGRES_PASSWORD: mysecretpassword
+      image: postgres:9.5
+      ports:
+      - 5432
+    replace: true
+  register: output
+
+- debug: var=output
+  when: playbook_debug

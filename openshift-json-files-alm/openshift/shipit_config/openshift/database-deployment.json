@@ -1,0 +1,46 @@
+{
+    "kind": "DeploymentConfig", 
+    "spec": {
+        "strategy": {
+            "type": "Rolling"
+        }, 
+        "replicas": 1, 
+        "template": {
+            "spec": {
+                "containers": [
+                    {
+                        "securityContext": {}, 
+                        "name": "database", 
+                        "env": [
+                            {
+                                "name": "POSTGRES_PASSWORD", 
+                                "value": "mysecretpassword"
+                            }
+                        ], 
+                        "image": "postgres:9.5", 
+                        "ports": [
+                            {
+                                "containerPort": 5432
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            "metadata": {
+                "labels": {
+                    "app": "alm", 
+                    "service": "database"
+                }
+            }
+        }, 
+        "selector": {}
+    }, 
+    "apiVersion": "v1", 
+    "metadata": {
+        "labels": {
+            "app": "alm", 
+            "service": "database"
+        }, 
+        "name": "database"
+    }
+}

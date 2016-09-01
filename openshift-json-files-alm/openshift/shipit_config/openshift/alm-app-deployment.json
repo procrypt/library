@@ -1,0 +1,45 @@
+{
+    "kind": "DeploymentConfig", 
+    "spec": {
+        "strategy": {
+            "type": "Rolling"
+        }, 
+        "replicas": 1, 
+        "template": {
+            "spec": {
+                "containers": [
+                    {
+                        "securityContext": {}, 
+                        "name": "alm-app", 
+                        "image": "procrypto/alm-alm-app:20160901122122", 
+                        "args": [
+                            "/usr/bin/alm", 
+                            "-dbhost", 
+                            "database"
+                        ], 
+                        "ports": [
+                            {
+                                "containerPort": 8080
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            "metadata": {
+                "labels": {
+                    "app": "alm", 
+                    "service": "alm-app"
+                }
+            }
+        }, 
+        "selector": {}
+    }, 
+    "apiVersion": "v1", 
+    "metadata": {
+        "labels": {
+            "app": "alm", 
+            "service": "alm-app"
+        }, 
+        "name": "alm-app"
+    }
+}

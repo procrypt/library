@@ -1,0 +1,4 @@
+---
+# defaults for alm-openshift
+
+playbook_debug: no
