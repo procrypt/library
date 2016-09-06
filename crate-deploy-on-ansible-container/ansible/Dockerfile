@@ -25,7 +25,7 @@ RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4
 
 RUN groupadd crate && useradd crate -g crate -d /home/crate -s /bin/bash -p 'crate'
 
-USER crate
+USER crate 
 
 RUN  wget https://cdn.crate.io/downloads/tmp/crate-0.55.4.tar.gz \
      && wget https://cdn.crate.io/downloads/releases/crate-0.55.4.tar.gz.asc \
