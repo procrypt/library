@@ -28,14 +28,10 @@
       shell: mkdir $HOME/work        
       
     - name: Set GOPATH
-      shell: echo 'export GOPATH=\$HOME/work' >> ~/.bash_profile && \
-             echo 'export PATH=\$PATH:\$GOPATH/bin' >> ~/.bash_profile && \
-             echo 'export PATH=\$PATH:/usr/local/go/bin' >> ~/.bash_profile
+      shell: echo 'export GOPATH=$HOME/work' >> ~/.bash_profile
 
     - name: Export GOPATH
-      shell: export GOPATH=$HOME/work && \
-             export PATH=$PATH:$GOPATH/bin && \
-             export PATH=$PATH:/usr/local/go/bin
+      shell: export GOPATH=$HOME/work
                    
 
     - name: Git clone the repo
@@ -51,4 +47,3 @@
              make generate && \
              make build && \     
              cp  bin/alm /usr/bin/alm
-
