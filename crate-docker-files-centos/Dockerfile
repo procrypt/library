@@ -1,7 +1,7 @@
 FROM centos:7
-MAINTAINER Abhishek Pratap Singh asingh@redhat.com
+MAINTAINER Abhishek Pratap Singh <asingh@redhat.com>
 
-RUN yum install -y wget \
+RUN yum -y install \
     tar \
     epel-release \
     gnupg \
@@ -13,6 +13,7 @@ RUN yum install -y wget \
     python-javapackages \
     python-lxml \
     tzdata-java \
+    wget 
 
 
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
@@ -25,16 +26,10 @@ RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4
 
 RUN groupadd crate && useradd crate -g crate -d /home/crate -s /bin/bash -p 'crate'
 
-USER crate
-
-RUN  wget https://cdn.crate.io/downloads/tmp/crate-0.55.4.tar.gz \
-     && wget https://cdn.crate.io/downloads/releases/crate-0.55.4.tar.gz.asc \
-     && export GNUPGHOME="$(mktemp -d)" \
-     && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 90C23FC6585BC0717F8FBFC37FAAE51A06F6EAEB \
-     && gpg --batch --verify crate-0.55.4.tar.gz.asc crate-0.55.4.tar.gz \
-     && rm -r "$GNUPGHOME" crate-0.55.4.tar.gz.asc \
+ENV CRATE_VERSION 0.55.4
+RUN  wget https://cdn.crate.io/downloads/tmp/crate-$CRATE_VERSION.tar.gz \
      && mkdir /crate \
-     && tar -zvxf crate-0.55.4.tar.gz -C /crate --strip-components=1 \
+     && tar -zvxf crate-$CRATE_VERSION.tar.gz -C /crate --strip-components=1 \
      && chown -R crate /crate
 
 ENV PATH /crate/bin:$PATH
