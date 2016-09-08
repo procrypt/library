@@ -1,5 +1,5 @@
 FROM centos:7
-MAINTAINER Abhishek Pratap Singh <asingh@redhat.com>
+MAINTAINER "Abhishek Pratap Singh <asingh@redhat.com>"
 
 RUN yum -y install \
     tar \
