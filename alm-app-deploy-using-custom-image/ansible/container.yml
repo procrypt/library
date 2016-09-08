@@ -1,0 +1,17 @@
+version: "1"
+services:
+  database:
+    image: postgres:9.5
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+
+  core:
+    image: almightycore/almighty-core:latest
+    command: ["-dbhost", "database"]
+    ports: 
+      - "8080:8080"
+    links:
+      - database
+ 
