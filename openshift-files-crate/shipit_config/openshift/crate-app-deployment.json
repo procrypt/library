@@ -1,0 +1,60 @@
+{
+    "kind": "DeploymentConfig", 
+    "spec": {
+        "strategy": {
+            "type": "Rolling"
+        }, 
+        "replicas": 1, 
+        "template": {
+            "spec": {
+                "volumes": [
+                    {
+                        "emptyDir": {
+                            "medium": ""
+                        }, 
+                        "name": "data"
+                    }
+                ], 
+                "containers": [
+                    {
+                        "securityContext": {}, 
+                        "name": "crate-app", 
+                        "image": "procrypto/crate-crate-app:20160908055318", 
+                        "args": [
+                            "su", 
+                            "crate", 
+                            "/crate/crate/bin/crate"
+                        ], 
+                        "ports": [
+                            {
+                                "containerPort": 4200
+                            }
+                        ], 
+                        "volumeMounts": [
+                            {
+                                "readOnly": false, 
+                                "mountPath": "/data", 
+                                "name": "data"
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            "metadata": {
+                "labels": {
+                    "app": "crate", 
+                    "service": "crate-app"
+                }
+            }
+        }, 
+        "selector": {}
+    }, 
+    "apiVersion": "v1", 
+    "metadata": {
+        "labels": {
+            "app": "crate", 
+            "service": "crate-app"
+        }, 
+        "name": "crate-app"
+    }
+}

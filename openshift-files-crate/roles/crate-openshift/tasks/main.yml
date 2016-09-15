@@ -1,0 +1,62 @@
+
+- oso_service:
+    service_name: crate-app
+    project_name: crate
+    labels:
+      app: crate
+      service: crate-app
+    ports:
+    - name: port-4200
+      port: 4200
+      targetPort: 4200
+    selector:
+      app: crate
+      service: crate-app
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: crate
+    service_port: port-4200
+    labels:
+      app: crate
+      service: crate-app
+    route_name: crate-app-4200
+    replace: true
+    service_name: crate-app
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: crate
+    labels:
+      app: crate
+      service: crate-app
+    deployment_name: crate-app
+    containers:
+    - securityContext: {}
+      name: crate-app
+      image: procrypto/crate-crate-app:20160908055318
+      args:
+      - su
+      - crate
+      - /crate/crate/bin/crate
+      ports:
+      - 4200
+      volumeMounts:
+      - mountPath: /data
+        name: data
+        readOnly: false
+    replace: true
+    volumes:
+    - emptyDir:
+        medium: ''
+      name: data
+  register: output
+
+- debug: var=output
+  when: playbook_debug

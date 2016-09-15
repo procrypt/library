@@ -2,9 +2,8 @@ version: "1"
 services:
   crate-app:
     image: centos:7
-    user: crate
     ports:
       - "4200:4200"
     volumes:
       - /data  
-    command: ["bash" "/crate/crate/bin/crate"]
+    command: ["su", "crate", "/crate/crate/bin/crate"]

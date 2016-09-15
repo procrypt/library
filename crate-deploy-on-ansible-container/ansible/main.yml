@@ -21,7 +21,6 @@
       shell: yum update -y && \
              yum install -y python34
 
-
     - name: Setup gosu for easier command execution
       shell: gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
              && curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/1.2/gosu-amd64" \
@@ -34,8 +33,6 @@
     - name: Create Crate user     
       shell: groupadd crate && useradd crate -g crate -d /home/crate -s /bin/bash -p 'crate' 
 
-
-
     - name: Install Crate
       shell: mkdir /crate && \
              cd /crate && \
@@ -43,4 +40,3 @@
              tar -zxvf crate-0.55.4.tar.gz && \
              chown -R crate /crate && \
              cp -r /crate/ /home/crate/
-

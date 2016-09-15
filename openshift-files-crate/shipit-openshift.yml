@@ -1,0 +1,8 @@
+- name: Deploy crate to  openshift
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+    playbook_debug: false
+  roles:
+  - role: crate-openshift

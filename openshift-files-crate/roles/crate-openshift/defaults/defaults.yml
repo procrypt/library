@@ -1,0 +1,4 @@
+---
+# defaults for crate-openshift
+
+playbook_debug: no

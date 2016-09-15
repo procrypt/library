@@ -1,0 +1,20 @@
+{
+    "kind": "Route", 
+    "spec": {
+        "to": {
+            "kind": "Service", 
+            "name": "crate-app"
+        }, 
+        "port": {
+            "targetPort": "port-4200"
+        }
+    }, 
+    "apiVersion": "v1", 
+    "metadata": {
+        "labels": {
+            "app": "crate", 
+            "service": "crate-app"
+        }, 
+        "name": "crate-app-4200"
+    }
+}
