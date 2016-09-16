@@ -8,11 +8,11 @@ License:	LGPLv3 (See LICENSE file for terms)
 URL:		  https://github.com/ansible/ansible-container
 Source0:	ansible-container-0.2.0.tar.gz
  
-Requires: docker-compose
-Requires: python-docker-py
-Requires: python-Jinja2 
-Requires: python-PyYAML 
-Requires: python-requests
+Requires: docker-compose >= 1.7.0
+Requires: python-docker-py >=1.8.0
+Requires: python-Jinja2 >=2.8
+Requires: python-PyYAML >=3.11
+Requires: python-requests >=2.7.0
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot 
