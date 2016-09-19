@@ -10,8 +10,8 @@ Source0:	ansible-container-0.2.0.tar.gz
  
 Requires: docker-compose >= 1.7.0
 Requires: python-docker-py >=1.8.0
-Requires: python-Jinja2 >=2.8
-Requires: python-PyYAML >=3.11
+Requires: python-jinja2 >=2.8
+Requires: PyYAML >=3.11
 Requires: python-requests >=2.7.0
 
 
