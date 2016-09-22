@@ -6,13 +6,11 @@ Summary:	Ansible Container empowers you to orchestrate, build, run, and ship Doc
 Group:		Development/Libraries
 License:	LGPLv3 (See LICENSE file for terms)
 URL:		  https://github.com/ansible/ansible-container
-Source0:	ansible-container-0.2.0.tar.gz
+Source0:	ansible-container-%{version}.tar.gz
  
-Requires: docker-compose >= 1.7
-Requires: python-docker-py >= 1.8
+Requires: docker-compose >= 1.7.0
 Requires: python-jinja2 >= 2.8
 Requires: PyYAML >= 3.11
-Requires: python-requests >= 2.7
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot 
@@ -24,7 +22,7 @@ Ansible Container enables you to build Docker images and orchestrate containers 
 %global debug_package %{nil}
 
 %prep
-%setup -n ansible-container-0.2.0 
+%setup -n ansible-container-%{version} 
 
 %build
 python setup.py build
