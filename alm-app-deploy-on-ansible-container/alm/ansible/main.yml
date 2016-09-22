@@ -1,4 +1,4 @@
-- hosts: alm-app
+- hosts: app
   tasks:
     - name: Install the packages
       yum:
