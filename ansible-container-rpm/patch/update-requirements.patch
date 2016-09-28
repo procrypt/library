@@ -1,3 +1,5 @@
+Remove docker-py and requests because docker-compose already requires them
+Remove the upper bound on the requirements so we can install in Fedora without requiring exact versions like upstream
 diff -ru ansible-container-0.2.0rc0-orig/requirements.txt ansible-container-0.2.0rc0/requirements.txt
 --- ansible-container-0.2.0rc0-orig/requirements.txt	2016-09-27 20:03:34.000000000 +0530
 +++ ansible-container-0.2.0rc0/requirements.txt	2016-09-27 21:03:43.489770393 +0530
