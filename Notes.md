@@ -20,7 +20,7 @@
 ###To fix ssh-key-error-permission-denied-publickey-gssapi-keyex-gssapi-with-mic
 
 ```
-vim /etc/sshd_config`
+vim /etc/sshd_config
 #PasswordAuthentication no
 ```
 
@@ -33,4 +33,12 @@ Get the access token https://api.preview.openshift.com/oauth/token/request
 Install `oc client` from https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#linux
 
 `oc login --token=xxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --server=https://api.preview.openshift.com`
+
+###Run container in OpenShift with root access
+
+```
+   oc login -u system:admin
+   oc edit scc restricted
+```
+Change the `runAsUser` strategy to `RunAsAny`.
 
