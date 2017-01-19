@@ -8,8 +8,10 @@
 
 ###Run docker with insecure registry
 `vim /usr/lib/systemd/system/docker.service`
+
 Add the registry this line 
 `ExecStart=/usr/bin/dockerd`
+
 eg: `ExecStart=/usr/bin/dockerd --insecure-registry docker-registry.usersys.redhat.com --insecure-registry 172.30.0.0/16`
 
 ###Byoubu split terminals.
