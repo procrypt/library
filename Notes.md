@@ -28,7 +28,7 @@ eg: `ExecStart=/usr/bin/dockerd --insecure-registry docker-registry.usersys.redh
 ###To fix ssh-key-error-permission-denied-publickey-gssapi-keyex-gssapi-with-mic
 
 ```
-vim /etc/sshd_config
+vim /etc/ssh/sshd_config
 #PasswordAuthentication no
 ```
 
