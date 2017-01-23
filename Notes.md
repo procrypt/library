@@ -20,6 +20,9 @@ eg: `ExecStart=/usr/bin/dockerd --insecure-registry docker-registry.usersys.redh
 
 `ctrl + F2` Vertical
 
+`shift + F11` Maximize the window
+
+
 ###Differece between `set +e` and `set -e`
 
 `set -e` sets an non-ignoring error state.That means, if command or pipeline has an error (something returns non zero), the bash will stop the execution of the script.
