@@ -53,3 +53,11 @@ Install `oc client` from https://github.com/openshift/origin/blob/master/docs/cl
 ```
 Change the `runAsUser` strategy to `RunAsAny`.
 
+
+###Add this to your bashrc to avoid branching errors in git
+
+```
+git clone https://github.com/magicmonty/bash-git-prompt.git .bash-git-prompt
+echo 'source ~/.bash-git-prompt/gitprompt.sh' >> ~/.bashrc
+echo 'GIT_PROMPT_ONLY_IN_REPO=1' >> ~/.bashrc
+```
