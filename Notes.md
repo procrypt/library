@@ -61,3 +61,6 @@ git clone https://github.com/magicmonty/bash-git-prompt.git .bash-git-prompt
 echo 'source ~/.bash-git-prompt/gitprompt.sh' >> ~/.bashrc
 echo 'GIT_PROMPT_ONLY_IN_REPO=1' >> ~/.bashrc
 ```
+
+###Export TERM in Linux
+`export TERM=xterm`
