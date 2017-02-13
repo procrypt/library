@@ -21,6 +21,7 @@ eg: `ExecStart=/usr/bin/dockerd --insecure-registry docker-registry.usersys.redh
 `ctrl + F2` Vertical
 
 `shift + F11` Maximize the window
+`ctrl + shift + F4` Swap Sessions
 
 
 ###Differece between `set +e` and `set -e`
