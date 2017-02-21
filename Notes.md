@@ -66,3 +66,6 @@ echo 'GIT_PROMPT_ONLY_IN_REPO=1' >> ~/.bashrc
 
 ###Export TERM in Linux
 `export TERM=xterm`
+
+###Download youtube videos in best quality
+`youtube-dl -f bestvideo+bestaudio <url>`
