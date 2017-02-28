@@ -6,6 +6,10 @@
 
 `sudo gpasswd -a <user> docker`
 
+or
+
+`sudo usermod -aG docker $(whoami)`
+
 ###Run docker with insecure registry
 `vim /usr/lib/systemd/system/docker.service`
 
