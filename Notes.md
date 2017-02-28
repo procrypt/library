@@ -78,3 +78,7 @@ echo 'GIT_PROMPT_ONLY_IN_REPO=1' >> ~/.bashrc
 
 ###Download youtube videos in best quality
 `youtube-dl -f bestvideo+bestaudio <url>`
+
+Openshift insecure_registry patch
+`oc patch is $imagestream -p '{"metadata":{"annotations":{"openshift.io/image.insecureRepository": "true"}}}}'`
+`oc import-image $imagestream:<tag>`
