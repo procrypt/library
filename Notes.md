@@ -14,6 +14,11 @@ Add the registry this line
 
 eg: `ExecStart=/usr/bin/dockerd --insecure-registry docker-registry.usersys.redhat.com --insecure-registry 172.30.0.0/16`
 
+```
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
 ###Byoubu split terminals.
 
 `shift + F2` Horizontal
