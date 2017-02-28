@@ -52,7 +52,7 @@ Login to https://console.preview.openshift.com/console/
 
 Get the access token https://api.preview.openshift.com/oauth/token/request
 
-Install `oc client` from https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#linux
+Install `oc client` from https://github.com/openshift/origin/releases
 
 `oc login --token=xxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --server=https://api.preview.openshift.com`
 
