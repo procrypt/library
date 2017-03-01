@@ -83,3 +83,40 @@ echo 'GIT_PROMPT_ONLY_IN_REPO=1' >> ~/.bashrc
 
 `oc patch is $imagestream -p '{"metadata":{"annotations":{"openshift.io/image.insecureRepository": "true"}}}}'`
 `oc import-image $imagestream:<tag>`
+
+###Thinkpad vimrc
+```bash
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+[ -r /home/abhishek/.byobu/prompt ] && . /home/abhishek/.byobu/prompt   #byobu-prompt#
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/work/golang
+export PATH=$PATH:/home/abhishek/work/golang/bin
+export CDPATH=$HOME/work/golang/src/github.com/
+export GOOGLE_APPLICATION_CREDENTIALS=$PATH:/home/abhishek/
+source ~/.bash-git-prompt/gitprompt.sh
+GIT_PROMPT_ONLY_IN_REPO=1
+export EDITOR=/usr/bin/vim
+export VAGRANT_DEFAULT_PROVIDER=libvirt
+source <(kubectl completion bash)
+source <(kompose completion bash)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f /home/abhishek/Downloads/google-cloud-sdk/path.bash.inc ]; then
+  source '/home/abhishek/Downloads/google-cloud-sdk/path.bash.inc'
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f /home/abhishek/Downloads/google-cloud-sdk/completion.bash.inc ]; then
+  source '/home/abhishek/Downloads/google-cloud-sdk/completion.bash.inc'
+fi
+```
