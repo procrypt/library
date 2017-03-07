@@ -2,6 +2,9 @@
 
 `oc --skip-registry-check=true cluster up`
 
+###oc bash completion
+`source <(oc completion bash)`
+
 ###Add user to docker group to docker run without sudo.
 
 `sudo gpasswd -a <user> docker`
