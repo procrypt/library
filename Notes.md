@@ -7,7 +7,7 @@
 
 ###Add user to docker group to docker run without sudo.
 
-`sudo gpasswd -a <user> docker`
+`sudo gpasswd -a $(whoami) docker`
 
 or
 
