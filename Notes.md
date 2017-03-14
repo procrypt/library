@@ -65,7 +65,7 @@ Install `oc client` from https://github.com/openshift/origin/releases
    oc login -u system:admin
    oc edit scc restricted
 ```
-Change the `runAsUser` strategy to `RunAsAny`.
+Change the `runAsUser.Type` strategy to `RunAsAny`.
 
 
 ###Add this to your bashrc to avoid branching errors in git
