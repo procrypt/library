@@ -10,7 +10,9 @@
 `sudo gpasswd -a $(whoami) docker`
 
 Update your current session for the group change to take effect
+
 `newgrp docker`
+
 or
 
 `sudo usermod -aG docker $(whoami)`
