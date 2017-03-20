@@ -16,6 +16,7 @@ Update your current session for the group change to take effect
 or
 
 `sudo usermod -aG docker $(whoami)`
+
 `newgrp docker`
 
 ### Run docker with insecure registry
