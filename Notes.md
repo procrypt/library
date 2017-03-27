@@ -42,6 +42,8 @@ sudo systemctl restart docker
 
 `ctrl + shift + F4` Swap Sessions
 
+`ctrl + F6` Forcefully kill a pane
+
 
 ### Differece between `set +e` and `set -e`
 
