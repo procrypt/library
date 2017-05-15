@@ -32,6 +32,20 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
+### MiniShift Installation
+```
+wget https://github.com/minishift/minishift/releases/download/v1.0.0/minishift-1.0.0-linux-amd64.tgz
+tar -zxvf minishift-1.0.0-linux-amd64.tgz
+mv minishift /usr/local/bin/
+```
+#### Install KVM
+```
+sudo curl -L https://github.com/dhiltgen/docker-machine-kvm/releases/download/v0.7.0/docker-machine-driver-kvm -o /usr/local/bin/docker-machine-driver-kvm
+sudo chmod +x /usr/local/bin/docker-machine-driver-kvm
+```
+#### Start MiniShift
+`minishift start`
+
 ### Byoubu split terminals.
 
 `shift + F2` Horizontal
