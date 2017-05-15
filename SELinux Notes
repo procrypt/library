@@ -1,0 +1,112 @@
+cat notes.txt 
+   20  file /etc/selinux/targeted/policy/
+   21  file /etc/selinux/targeted/policy/policy.30 
+   22  file
+   23  sudo dnf install -y file
+   24  file /etc/selinux/targeted/policy/policy.30 
+   25  vim 
+   26  vi /etc/selinux/config 
+   27  getenforce 
+   28  setenforce 0
+   29  sudo setenforce 0
+   30  setenforce 0
+   31  getenforce 
+   32  sudo setenforce 1
+   33  getenforce 
+   34  sestatus .
+   35  sestatus 
+   36  avcstat 
+   37  avcstat -h
+   38  avcstat -f a.txt
+   39  avcstat > a.txt
+   40  cat a.txt 
+   41  avcstat -f a.txt
+   42  avcstat > status_file
+   43  avcstat -f status_file 
+   44  rm -rf status_file a.txt 
+   45  ls
+   46  sudo dnf install -y wget
+   47  wget http://vault.centos.org/7.3.1611/updates/Source/SPackages/selinux-policy-3.13.1-102.el7_3.13.src.rpm
+   48  ls
+   49  ll
+   50  rpm -h
+   51  rpm --help
+   52* sudo cd /var/lib/selinux/targeted/
+   53  sudo -i
+   54  semodule
+   55  semodule -l
+   56  sudo semodule -l
+   57  semodule rpm
+   58  semodule -d zebra #disable
+   59  sudo semodule -d zebra #disable
+   60  ls #list
+   61  sudo semodule -m  zebra #more details
+   62  sudo semodule module -l  zebra #more details
+   63  sudo semodule module -l  #more details
+   64  man semodule
+   65  sudo dnf install -y httpd
+   66  sudo systemctl start httpd
+   67  ps eZ | grep https
+   68  ps eZ | grep httpd
+   69  ps -eZ | grep httpd
+   70  ps -eZ | grep httpd # -Z for security context
+   71  ps -eZ | grep httpd # -Z for security context, httpd_t is the label
+   72  ls -Z /etc/httpd/conf/httpd.conf 
+   73  ls -Z /var/log/httpd/access_log 
+   74  sudo ls -Z /var/log/httpd/access_log 
+   75  sudo ls -Z /var/log/httpd/
+   76  sudo ls -Zd /var/log/httpd/ # d shows label of the directory
+   77  sudo ls -z /etc/shadow
+   78  sudo ls -Zd /etc/shadow
+   79  ps -eZ
+   80  ps -e
+   81  ps -eZ
+   82  ps -Z
+   83  ps 
+   84  ps -eZ
+   85  sudo semanage port -l # labels for ports
+   86  #kernel manages labels
+   87  #context format user_identity:role:type:sensitivity:categoty_level
+   88  seinfo -u #selinux users as per the policies
+   89  semanage login -l #login selinux user 
+   90  sudo semanage login -l #login selinux user 
+   91  seinfo -r #selinux roles as per the policies
+   92  id -Z #selinux user
+   93  # type field is by default enforced called Type Enforcing
+   94  # user:role:type:label(sensitivity:category)
+   95  # system_u:object_u:https_config_t:s0
+   96  # every user is bind with a selinux user
+   97  # chcon to change the cotext of a file or a directory
+   98  touch /var/www/html/index.html
+   99  sudo touch /var/www/html/index.html
+  100  sudo ls -Z /var/www/html/index.html
+  101  hostname -I
+  102  touch a.txt
+  103  mv a.txt /var/www/html/
+  104  sudo mv a.txt /var/www/html/
+  105  sudo ls -Z /var/www/html/a.txt 
+  106  sudo ls -Z /var/www/html/index.html 
+  107  hostname -I | wget 
+  108  wget 192.168.121.152:/a.txt
+  109  wget 192.168.121.152
+  110  wget 192.168.121.152/a.txt
+  111  chown -t httpd_sys_content_t /var/www/html/a.txt
+  112  chcon -t httpd_sys_content_t /var/www/html/a.txt
+  113  wget 192.168.121.152/a.txt
+  114  ls
+  115  # to get the correct label
+  116  restorecon -v /var/www/html/a.txt
+  117  semanage fcontext -l | grep /var/www/html
+  118  sudo semanage fcontext -l | grep /var/www/html
+  119  # list of all contexts
+  120  ls /etc/selinux/targeted/contexts/
+  121  # chcon --reference <file1> <file2> , change context of file2 similar to file1
+  122  # setfiles is used to restore the context on entire file system
+  123  setfiles 
+  124  matchpathcon /etc/
+  125* # label of a file in a particular directo
+  126  matchpathcon /var/log/
+  127  # sesearch show process with a particulat type
+  128  sesearch -A -s httpd_t
+  129  semanage boolean -l
+  130  sudo semanage boolean -l
