@@ -153,3 +153,17 @@ Byubu
 ```
 \[\e[31m\]$(byobu_prompt_status)\[\e[00;32m\]\u\[\e[00m\]@\[\e[00;31m\]\h\[\e[00m\]:\[\e[00;36m\]\w\[\e[00m\]$(byobu_prompt_symbol)
 ```
+
+### Install Go 
+```
+$ wget -P go$VERSION.$OS-$ARCH.tar.gz
+$ tar -C /usr/local -xzf /tmp/go$VERSION.$OS-$ARCH.tar.gz
+$ export PATH=$PATH:/usr/local/go/bin 
+$ export GOROOT=$HOME/go
+```
+
+### Update Go 
+```
+$ rm -rf /usr/local/go
+```
+Repeat the above steps
