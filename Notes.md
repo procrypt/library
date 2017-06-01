@@ -167,3 +167,10 @@ $ export GOROOT=$HOME/go
 $ rm -rf /usr/local/go
 ```
 Repeat the above steps
+
+### Golang best practices
+https://talks.golang.org/2013/bestpractices.slide#1
+
+https://peter.bourgon.org/go-best-practices-2016/
+
+https://medium.com/@sebdah/go-best-practices-error-handling-2d15e1f0c5ee
