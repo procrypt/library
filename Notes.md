@@ -174,3 +174,14 @@ https://talks.golang.org/2013/bestpractices.slide#1
 https://peter.bourgon.org/go-best-practices-2016/
 
 https://medium.com/@sebdah/go-best-practices-error-handling-2d15e1f0c5ee
+
+
+Golang best practices
+
+https://talks.golang.org/2013/bestpractices.slide#1
+
+https://peter.bourgon.org/go-best-practices-2016/
+
+https://medium.com/@sebdah/go-best-practices-error-handling-2d15e1f0c5ee
+
+https://golang.org/doc/effective_go.html
