@@ -132,6 +132,7 @@ source ~/.bash-git-prompt/gitprompt.sh
 GIT_PROMPT_ONLY_IN_REPO=1
 export EDITOR=/usr/bin/vim
 export VAGRANT_DEFAULT_PROVIDER=libvirt
+export PS1="\e[0;36m\]🕸 \e[0;31m\]procrypt \e[0;32m\]\W \e[00m\]$ \e[m";
 source <(kubectl completion bash)
 source <(kompose completion bash)
 
