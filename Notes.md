@@ -188,4 +188,5 @@ https://medium.com/@sebdah/go-best-practices-error-handling-2d15e1f0c5ee
 https://golang.org/doc/effective_go.html
 
 Cool thing :)
+
 `curl http://wttr.in/~Jaipur`
