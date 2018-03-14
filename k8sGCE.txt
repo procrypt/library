@@ -1,0 +1,162 @@
+Start a cluster
+	gcloud container clusters create procrypt-cluster
+
+Check kubectl version
+	kubectl version
+
+Health check of the cluster
+	kubectl get componentstatus
+
+Check the number of nodes
+	kubectl get nodes
+
+Description of a particular node
+	kubectl describe node <node>
+
+Check namespace
+	kubectl get namespace
+
+Check the kube-proxy
+	kubectl get daemonSets --namespace=kube-system kube-proxy
+
+Check kube-DNS
+	kubectl get deployment --namespace=kube-system kube-dns
+
+Check load-balancer
+	kubectl get service --namespace=kube-system kube-dns
+
+Kubernetes-UI
+	kubectl get deployment --namespace=kube-system kubernetes-dashboard
+	kubectl get service --namespace=kube-system kubernetes-dashboard
+
+	Use kubectl proxy to access the UI
+	kubectl proxy
+
+Kubectl configuration file
+	$HOME/.kube/config
+
+
+K8s uses namespace to organize objects in the cluster. Think of namespace as a folder that holds a set of objects. By default, the kubectl cmdline tool interacts with the "default" namespace, you can run the
+kubectl cmd with --namespace flag to reference objects in differernt namespace.
+Create a new default namespace
+	kubectl config set-context <name> --namespace
+
+Tell k8s to start using the new namespace
+	kubectl config use-context <name>
+
+Everything contained in K8s is represented by RESTful resource. Each resource is a K8s Object and exist with a unique HTTP path. kubectl make HTTP request to these URLs to access the K8s objects that reside in these paths. The most basic command is "kubectl get <resource-name>", will list all the resources in the current namespace. To get more information in the use "-o wide".
+Use "--no-headers" to remove the headers from the command.
+
+
+Detailed information about a particular object.
+	kubectl describe <resource-name> <obj-name>
+
+Objects in k8s are represented in YAML or JSON. We can use YAML or JSON to delete, update or crate k8s object.
+
+Creating an Object.
+	kubectl apply -f obj.yaml
+
+Edit an object.
+	kubectl apply -f obj.yaml
+
+Edit on the fly.
+	kubectl edit <resource-name> <obj-name>
+
+Delete an object
+	kubectl delete -f obj.yml
+	kubectl delete <resource-name> <obj-name>
+
+Labeling and Annotations
+Labels are key/value pairs that can be attached to K8s objects such as Pods and ReplicaSets.
+Annotations provide s storage mechanism that resembes labels.
+With Lables k8s deals with a set of objects not just onc instance
+These are tags to your objects. You can update labels and annotations on any K8s object using the "label" and "annotate" command.
+	kubectl label pods bar color=red	// bar = podname, color=red, label
+
+By default labels and annotations will not overwrite the existing labels. To do this add --overwrite flag.
+	kubectl label pods bar color=red --overwrite
+
+To remove a label use
+	kubectl label pod bar -color
+
+Logs of a running container
+	kubectl logs <pod-name>
+
+Use -f to follow the log stream
+	kubectl logs <pod-name> -f
+
+Execute command inside a running container
+	kubectl exec -it <pod-name> bash
+
+Copy files to and from the container
+	kubectl cp <pod-name>:/path/to/remote/file /path/to/local/file
+
+For cmdline help
+	kubectl help
+	kubectl help <cmd-name>
+
+Kubernetes groups multiple containers into a sngle atomic unit called "Pod". A Pod represents a collection of application containers and volumes running in the same execution environment. Pods are the smallet unit of deployment artifact in K8s cluster. All containers on the Pod always land on the same machine.
+Each container in a Pod run in its own cgroup, but share a number of Linux namespaces.
+Application running on the same Pod share the IP address and Port Space (Network Namespace), have the same hostname (UTS Namespace) and can communicate using native IPC namespace.
+However applications running on different Pods are isolated form each other.
+
+K8s strongly beleive in "declarative configration". means that you write down the desired state of the configuration and them submit that configuration to a service that takes action to ensure the desired state becomes the actual state.
+
+The opposite of Declarative Configuration is "Imperative Configiration", where you simply take a series of action (eg. dnf install foo) to modify the application. Maintaining a written record of the systems desired state leads to a more managable and reliable system. It is the basis for all the self-healing behaviour in K8s that keeps the application running without user action.
+
+K8s API server accepts and process Pod manifests before stroing them in persistent storage (etcd).
+The Schedular also uses the K8s API to find the Pods that have not been scheduled yet to a node. The schedular then places the Pods onto the nodes depending upon th resource and other constraints expressed in the Pod manifest. Scheduling multiple replicas of the same application onto the same machine is worse for reliability, since the machine is a single failure domain. K8s Schedular tries to ensure that Pods from the sam application are distribited onto different machines for reliability. Once scheduled on the node pods don't move and must be explicitly destroyed and rescheduled.
+
+Creating a Pod.
+	kubectl run <pod-name> --image=<img>
+	kubectl get status
+	kubectl describe <pod-name>
+
+Delete a Pod.
+	kubectl delete deployment/<pod-name>
+	kubectl delete pods/<pod-name>
+
+The Pod is not immediately terminated instead all Pods have a termination "grace period". Default is 30 sec. The grace period is important for reliability because it allows Pod to finish any active request that may be in the middle of processing before it is terminated. With deleting a Pod any data in the containers is deleted as well, unless ypu are using "Persistant Volumes".
+
+Often times you may want to access a specific Pod, even it's not serving the traffic on the internet. Use port forwarding to do this.
+	kubectl port-forward <pod-name> 8080:8080
+A secure tunnel is created from your local machine through the k8s master, to the instance of the Pod running on one of the worker nodes.
+
+Health Checks.
+This ensures that the main process of your application is always running. If it isn't K8s restarts it. There are two types of Health Check in K8s.
+Liveness: This health check run appication specific logic (eg. loading a web server) to verify that application is not just running but is working properly. You have to define them in the Pod maifests.
+Readiness: It describes when a container is ready to serve user requests. Containers that fail readiness checks are removed from the service loadd balancers.
+
+Combining the readiness and liveness probes helps to ensure only healthy containers are running in the cluster.
+
+tcpSocket: This opens a TCP Socket; if connection is successful probe succeeds, it is useful in non HTTP based application like databases.
+exec: These execute a script or a program in the context of a container. If the script returns "Zero" exit code, it succeeds.
+
+Resource Utilization.
+K8s uses two different resource metrics.
+Resource Request: The minimum amount of resource required to run an application.
+Resouce Limits: The maximu amount of resource an application can consume.
+
+Resources are requested per container, not per Pod. The total resource requested by the Pod is the sum of all the resources requested by all the containers in the Pod. The reason of this is that different containers have different CPU requirements.
+Requests are used when scheduling Pods to node. The K8s Schedular ensures that sum of all the requests of all the Pods on a node does not exceed the capacity of the node. Therefore, a Pod is guaranteed to have at least the requested resources when running on a node.
+Requests specifies the "minimum", it does not specifies a maximum cap of the resource a Pod may use. CPU requests are implemented usng the cpu-shares functionality in the Linux kernel.
+
+Memory requests are handeled similarly to CPU, but there is a difference. If a container is over its memory request, the OS can't just remove the memory from the process, because it's been allocated. Consequently when a system runs out of memory, the "kubelet" terminates the container whose memory usage is greater than the requested memory. These containers are automatically restarted with less memory availableon the machine for the container to consume.
+
+Resource requests guarentee resource availability to a Pod, they are critical to ensuring that containers have sufficient resource in high-load situations.
+
+Ways of using Volumes with Pods.
+emptyDir: Containers use the storage available on the Pod (node basically, since Pods are scheduled on the nodes), data gets deleted when the node is dowm, not when the container is deleted. You can use emptyDir as cache.
+
+PersistentData: The volume that is independent of the lifespan of a particular Pod, and it moves between nodes on the cluster if the node fails or a Pod moves to a different machine.
+
+Mounting Host File System: Some application may need to access the underlying host OS, for eg, they may need access to the /dev file systemin order to perform raw block level access to a device on the same system. K8s supports hostDir volumes, which can be mounted on arbritary locations on the worker node onto the containers.
+
+PersistentData usig remote disks: K8s supports NFS, iSCSI and a ton of other storage services.
+
+
+Service Discovery.
+Service discovery tools helps to reslove the problem of finding which process are listening at which address for which services.
+A Service Object is way to create a named label selector.
+To expose a service
+	kubectl expose deployment <name>
