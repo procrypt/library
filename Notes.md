@@ -149,6 +149,7 @@ fi
 
 ### Bash Propmt
 `PS1="\[\e[0;36m\]🕸 \[\e[0;31m\]procrypt \[\e[0;32m\]\W \[\e[00m\]\@ $ \[\e[m";` // With Time
+
 `PS1="\[\e[0;36m\]🕸  \[\e[0;31m\]procrypt \[\e[0;32m\]\W \[\e[00m\]$ \[\e[m";`  
 
 
