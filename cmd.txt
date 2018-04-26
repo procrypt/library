@@ -1,0 +1,31 @@
+which   <binary>
+whereis <binary> OR <file/directory>
+locate  <file>    	// seaches in more depth using the db, which is updated periodically by "updatedb cmd"
+rpm -q  <pkg>
+man     <cmd>
+info    <cmd>     	// similar to man
+tee               	// copy input to two places <file and STDOUT>
+lpr               	// submit print jobs
+grep   <pattern>  	// -l exact match, -v non-matching
+find		  	// finds the matching files
+bash -x		  	// prints each command output before exiting the (commonly used in scripting)
+fc	          	// read about it
+read		  	// promts for STDIN
+printf		  	// formatted printing
+telinit 	  	// changes init's run level once the system is up, -q option causes init to reread /etc/inittab
+systemctl get-default   // default TARGET in SYSTEMD based OS
+chroot ?? 
+chage -l <account>      // user account expiry details
+passwd -l <account>     // lock an account
+passwd -u <account>     // unlock an account
+chsh -s <SHELL Account> // change shell of user account
+last                    // last login info from /var/log/wtmp file
+lastb			// last failed login info from /var/log/btmp file
+lastlog			// shows last time the user logged in from /var/log/lastlog 
+w			// show who logged in and what they are doing
+sudo -ll -U <user>      // info about what command a user can run
+lsof -i 		// list open netcwork connections files as everything in linux is file
+systemctl 		// services running on the machine
+netsat -tnulp		// active internet connection, t=TCP, u=UDP, n=Numeric, p=PIDs, l=Only listening sockets
+iptables		
+ldd <binary path>       // tells if the binary is wrapped with "libwrap". Prints Shared Object libraries
