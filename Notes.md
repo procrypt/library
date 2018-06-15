@@ -19,6 +19,14 @@ or
 
 `newgrp docker`
 
+
+### YAML Indentation vim
+Add this to your vimrc
+
+`vim ~/.vimrc`
+`autocmd FileType yaml setlocal ai ts=2 sw=2 et`
+
+
 ### Run docker with insecure registry
 `vim /usr/lib/systemd/system/docker.service`
 
