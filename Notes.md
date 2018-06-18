@@ -28,6 +28,10 @@ Add this to your vimrc
 `autocmd FileType yaml setlocal ai ts=2 sw=2 et`
 
 
+### Check permissions in octal notation
+`stat -c "%a %n" <directory>`
+
+
 ### Run docker with insecure registry
 `vim /usr/lib/systemd/system/docker.service`
 
