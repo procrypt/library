@@ -1,0 +1,40 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    atlassian_url: "<url>"
+    atlassian_username: "<username>"
+    atlassian_password: "<PASSWORD>"
+    atlassion_project: "sample"
+    atlassion_key: "SA"
+  tasks:
+    - name: Create Sample Project
+      uri:
+        url: "{{ atlassian_url }}/rest/api/2/project"
+        method: POST
+        user: "{{ atlassian_username }}"
+        password: "{{ atlassian_password }}"
+        return_content: yes
+        force_basic_auth: yes
+        body_format: json
+        header:
+          - Accept: 'application/json'
+          - Content-Type: 'application/json'
+        body: "{ 'key': '{{ atlassion_key }}', 
+                 'name': '{{ atlassion_project }}',
+                 'projectTypeKey': 'business',
+                 'projectTemplateKey': 'com.atlassian.jira-core-project-templates:jira-core-simplified-project-management',
+                 'description': 'Project created using Ansible playbook',
+                 'lead': 'asingh',
+                 'assigneeType': 'PROJECT_LEAD',
+                 'avatarId': 10200,
+                 'permissionScheme': 11003,
+                 'notificationScheme': 10000, 
+                 'categoryId': 10202 }"
+        status_code: 201         
+
+      register: result
+
+    - name: debug it
+      debug:
+        msg: "{{ result }}"
