@@ -1,0 +1,5 @@
+--- 
+- hosts: confluence
+  gather_facts: no
+  roles: 
+    - manage-confluence-space
