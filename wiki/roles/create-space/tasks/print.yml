@@ -1,0 +1,4 @@
+---
+- name: debug
+  debug:
+    msg: "{{ confluence_space_content.title }}" 

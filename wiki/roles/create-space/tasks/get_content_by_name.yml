@@ -1,0 +1,16 @@
+---
+- name: Get Content from using Name
+  uri:
+    url: '{{ confluence_space_source_url }}/wiki/rest/api/content?title={{ confluence_space_home_page | urlencode }}'
+    method: GET
+    user: '{{ source_confluence_site_username }}'
+    password: '{{ source_confluence_site_password }}'
+    force_basic_auth: yes
+    status_code: 200
+    return_content: yes
+  register: content_json
+  no_log: false
+
+- name: debug
+  set_fact:
+    id: '{{ content_json.json.results[0].id }}'

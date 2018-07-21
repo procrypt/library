@@ -1,0 +1,25 @@
+---
+- name: Modify the space
+  uri:
+    url: "{{ confluence_space_destination_url }}/wiki/rest/api/space/{{ confluence_space_key }}"
+    method: PUT
+    user: '{{ destination_confluence_site_username }}'
+    password: '{{ destination_confluence_site_password }}'
+    force_basic_auth: yes
+    status_code: 200
+    body_format: json
+    body: "{{
+            { 'description': {
+                'plain': {
+                  'value': '{{ confluence_space_description }}',
+                   'representation': 'plain'
+                 }
+             },
+             'homepage': {
+               'id': '{{ id }}'
+             },
+             'name': '{{ confluence_space_home_page }}'
+            } 
+           }}"
+    return_content: yes
+  register: result

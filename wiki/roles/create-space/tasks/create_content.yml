@@ -1,0 +1,55 @@
+- name: Create a tempfile for Content JSON
+  command: mktemp
+  register: jsontemp
+  delegate_to: 127.0.0.1
+
+- name: Create Content at Destination Site
+  template:
+    src: content.j2
+    dest: '{{ jsontemp.stdout }}' 
+  delegate_to: 127.0.0.1 
+  register: new_content_json
+  no_log: false
+
+
+- name: Escape HTML Double Quotes
+  replace:
+    path: '{{ jsontemp.stdout }}'
+    regexp: '(?<==)(\")|(\")(?=[>\ ])'
+    replace: '\"'
+
+- name: Remove literal newlines
+  replace:
+    path: '{{ jsontemp.stdout }}'
+    regexp: '\n'
+    replace: ''
+
+- name: Unescape Single Quote
+  replace:
+    path: '{{ jsontemp.stdout }}'
+    regexp: "\\'"
+    replace: "'"
+
+- name: Unescape Single Quote
+  replace:
+    path: '{{ jsontemp.stdout }}'
+    regexp: "},}"
+    replace: "}}"
+
+- name: debug
+  debug:
+    msg: "{{ jsontemp.stdout }}"
+
+- name: Create Content at Destination Site
+  uri:
+    url: '{{ confluence_space_destination_url }}/wiki/rest/api/content/'
+    method: POST
+    user: '{{ destination_confluence_site_username }}'
+    password: '{{ destination_confluence_site_password }}'
+    force_basic_auth: yes
+    status_code: 200
+    body_format: json
+    body: "{{ lookup('file', '{{ jsontemp.stdout }}') }}"
+    return_content: yes
+  register: new_content_json
+  no_log: false

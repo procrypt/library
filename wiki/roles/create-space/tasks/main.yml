@@ -1,0 +1,6 @@
+---
+- include_tasks: create_space.yml
+- include_tasks: get_content.yml
+- include_tasks: create_content.yml 
+- include_tasks: get_content_by_name.yml
+- include_tasks: modify_space.yml 
