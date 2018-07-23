@@ -8,18 +8,6 @@
     force_basic_auth: yes
     status_code: 200
     body_format: json
-    body: "{{
-            { 'description': {
-                'plain': {
-                  'value': '{{ confluence_space_description }}',
-                   'representation': 'plain'
-                 }
-             },
-             'homepage': {
-               'id': '{{ id }}'
-             },
-             'name': '{{ confluence_space_home_page }}'
-            } 
-           }}"
+    body: "{{ lookup('template', 'modify_space.j2') }}"
     return_content: yes
   register: result

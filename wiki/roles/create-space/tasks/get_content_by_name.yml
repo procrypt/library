@@ -1,7 +1,7 @@
 ---
 - name: Get Content from using Name
   uri:
-    url: '{{ confluence_space_source_url }}/wiki/rest/api/content?title={{ confluence_space_home_page | urlencode }}'
+    url: '{{ confluence_space_destination_url }}/wiki/rest/api/content?title={{ confluence_space_home_page | urlencode }}'
     method: GET
     user: '{{ source_confluence_site_username }}'
     password: '{{ source_confluence_site_password }}'
@@ -13,4 +13,4 @@
 
 - name: debug
   set_fact:
-    id: '{{ content_json.json.results[0].id }}'
+    content_id: '{{ content_json.json.results[0].id }}'
