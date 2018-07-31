@@ -1,10 +1,10 @@
 ---
 - name: Get Content from Source
   uri:
-    url: '{{ confluence_space_source_url }}/wiki/rest/api/content/{{ confluence_space_content.id }}?expand=body.storage,space,ancestors'
+    url: '{{ confluence.source.url }}/wiki/rest/api/content/{{ confluence_space_content.id }}?expand=body.storage,ancestors'
     method: GET
-    user: '{{ source_confluence_site_username }}'
-    password: '{{ source_confluence_site_password }}'
+    user: '{{ confluence.source.username }}'
+    password: '{{ confluence.source.password }}'
     force_basic_auth: yes
     status_code: 200
     return_content: yes
@@ -15,64 +15,75 @@
   set_fact: 
     content_ancestors: "{{ content_json.json.ancestors | map(attribute='id') | list | map('extract', id_mapping) | list }}"
 
-- name: debug
-  debug:
-    msg: "{{ content_json.json.ancestors }}"
-
 - name: Pick only the last ancestor
   set_fact:
     content_ancestors: "{{ [-1] | map('extract', content_ancestors) | list }}"
   when: content_ancestors|length > 0
 
-- name: Create a tempfile for Content JSON
-  command: mktemp
-  register: jsontemp
-  delegate_to: 127.0.0.1
+- name: set homepage at destination
+  block:
+    - set_fact:
+        homepage:
+          body:
+            storage:
+              value: "{{ content_json.json.body.storage.value }}"
+              representation: "storage"
+          title: "{{ content_json.json.title }}"
+          type: "{{ content_json.json.type }}"
+          space:
+            key: "{{ confluence.destination.space_key }}"
+          version:
+            number: "2"
+    - uri:
+        url: '{{ confluence.destination.url }}/wiki/rest/api/content/{{ destination_homepage_id }}'
+        method: PUT
+        user: '{{ confluence.destination.username }}'
+        password: '{{ confluence.destination.password }}'
+        force_basic_auth: yes
+        status_code: 200
+        body_format: json
+        body: "{{  homepage | to_json }}"
+        return_content: yes
+      register: homepage_content_json
 
-- name: Generate Content JSON from Template
-  template:
-    src: content.j2
-    dest: '{{ jsontemp.stdout }}'
-  delegate_to: 127.0.0.1
+    - set_fact:
+       id_mapping: "{{ id_mapping|combine({ content_json.json.id : { 'id' : homepage_content_json.json.id }}) }}"
+  when: content_json.json.id == source_homepage_id
 
-- name: Escape HTML Double Quotes
-  replace:
-    path: '{{ jsontemp.stdout }}'
-    regexp: '(?<==)(\")|(\")(?=[>\ ])'
-    replace: '\"'
+- name: set payload for create contect
+  set_fact:
+    payload:
+      id: "{{ content_json.json.id }}"
+      title: "{{ content_json.json.title }}"
+      type: "{{ content_json.json.type }}"
+      space:
+        key: "{{ confluence.destination.space_key }}"
+      body:
+        storage:
+          value: "{{ content_json.json.body.storage.value }}"
+          representation: "storage"
 
-- name: Remove literal newlines
-  replace:
-    path: '{{ jsontemp.stdout }}'
-    regexp: '\n'
-    replace: ''
-
-- name: Unescape Single Quote
-  replace:
-    path: '{{ jsontemp.stdout }}'
-    regexp: "\\'"
-    replace: "'"
-
-- name: Unescape Comma in the body
-  replace:
-    path: '{{ jsontemp.stdout }}'
-    regexp: "},}"
-    replace: "}}"
+- name: if page is child add ancestors
+  set_fact:
+    payload: "{{ payload | combine( {'ancestors': content_ancestors} )}}"
+  when: content_json.json.ancestors|length > 1
 
 - name: Create Content at Destination Site
   uri:
-    url: '{{ confluence_space_destination_url }}/wiki/rest/api/content'
+    url: '{{ confluence.destination.url }}/wiki/rest/api/content'
     method: POST
-    user: '{{ destination_confluence_site_username }}'
-    password: '{{ destination_confluence_site_password }}'
+    user: '{{ confluence.destination.username }}'
+    password: '{{ confluence.destination.password }}'
     force_basic_auth: yes
     status_code: 200
     body_format: json
-    body: "{{ lookup('file', '{{ jsontemp.stdout }}') }}"
+    body: "{{  payload | to_json }}"
     return_content: yes
   register: new_content_json
-  no_log: true
+  no_log: false
+  when: content_json.json.title != "RH Labs Wiki Template"
 
 - name: Append New id to old id mapping
   set_fact:
     id_mapping: "{{ id_mapping|combine({ content_json.json.id : { 'id' : new_content_json.json.id }}) }}"
+  when: content_json.json.title != "RH Labs Wiki Template"
