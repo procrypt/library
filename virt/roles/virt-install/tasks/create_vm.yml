@@ -11,7 +11,7 @@
 
 - name: debug
   debug:
-    msg: "{{ hostvars['vm-1.example.com']['infrahost'] }}"
+    msg: "{{ inventory_hostname }}"
 
 - name: 'Compose Command for new VM provisioning'
   include_tasks: 'virt-install.yml'
