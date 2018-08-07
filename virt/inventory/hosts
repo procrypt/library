@@ -1,0 +1,5 @@
+[infra_hosts]
+10.195.149.235 ansible_user=root 
+
+[infra_vms]
+vm-1.example.com infrahost=10.195.149.235 ansible_user=abhishek ansible_host=192.168.122.2
