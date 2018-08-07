@@ -1,7 +1,0 @@
-[infra_hosts]
-cloud
-
-[infra_vms]
-master.local    infrahost=cloud 
-infranode.local infrahost=cloud 
-appnode.local   infrahost=cloud
