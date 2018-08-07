@@ -1,0 +1,13 @@
+---
+libvirt_name: "appnode"
+libvirt_title: "App Node"
+libvirt_description: "Appnode"
+libvirt_memory: "2048"
+libvirt_vcpus: "1"
+libvirt_disk_size: "15"
+libvirt_os_variant: "centos7.0"
+libvirt_iso: "/home/abhishek/Downloads/CentOS-7-x86_64-DVD-1804.iso"
+libvirt_ksfile: "/home/abhishek/research/virt/roles/virt-install/files/appnode.ks"
+libvirt_network_hostif: "virbr0"
+libvirt_http_host: '192.168.122.1'
+libvirt_network_type: "bridge"
