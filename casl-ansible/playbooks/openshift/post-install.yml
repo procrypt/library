@@ -1,0 +1,18 @@
+---
+
+# Post-Install tasks for specific providers
+- import_playbook: gcp/post-install.yml
+  when: hosting_infrastructure == "gcp"
+
+- hosts: cluster_hosts
+  roles:
+    - role: sync-keys
+      key_url: "{{ openshift_authorized_key_url | default('') }}"
+
+- hosts: masters
+  roles:
+  - { role: create_users }
+
+- import_playbook: ../../galaxy/openshift-applier/playbooks/openshift-cluster-seed.yml
+  when:
+  - openshift_cluster_content is defined

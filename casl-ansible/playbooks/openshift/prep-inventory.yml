@@ -1,0 +1,75 @@
+---
+
+- name: Generate Environment ID
+  set_fact:
+    env_random_id: "{{ ansible_date_time.epoch }}"
+  run_once: true
+  delegate_to: localhost
+
+- name: Set default Environment ID
+  set_fact:
+    default_env_id: "casl-{{ lookup('env','OS_USERNAME') }}-{{ env_random_id }}"
+  delegate_to: localhost
+
+- name: Setting Common Facts
+  set_fact:
+    env_id: "{{ env_id | default(default_env_id) }}"
+  delegate_to: localhost
+
+- name: Updating DNS configurations
+  set_fact:
+    full_dns_domain: "{{ (env_id|trim == '') | ternary(dns_domain, env_id + '.' + dns_domain) }}"
+    openshift_app_domain: "{{ openshift_app_domain | default('apps') }}"
+    public_dns_domain: "{{ dns_domain }}"
+  delegate_to: localhost
+
+- name: Set the default app domain for routing purposes
+  set_fact:
+    openshift_master_default_subdomain: "{{ openshift_app_domain }}.{{ full_dns_domain }}"
+  delegate_to: localhost
+  when:
+  - openshift_master_default_subdomain is undefined
+
+- name: Set Docker Version and Version Lock the docker packages
+  set_fact:
+    versionlock_packages:
+      - "docker-{{ docker_version }}"
+      - "docker-rhel-push-plugin-{{ docker_version }}"
+      - "docker-client-{{ docker_version }}"
+      - "docker-common-{{ docker_version }}"
+    docker_version_to_install: "-{{ docker_version }}"
+  when:
+    - docker_version is defined
+
+- name: Set Container Storage Setup facts
+  set_fact:
+    openshift_openstack_container_storage_setup:
+      docker_dev: "{{ docker_storage_block_device | default('/dev/sdb') }}"
+      docker_vg: "docker_vg"
+      docker_data_size: "95%VG"
+      docker_dm_basesize: "3G"
+      container_root_lv_name: "docker_lv"
+      container_root_lv_mount_path: "/var/lib/docker"
+  when:
+    - openshift_openstack_container_storage_setup is undefined
+
+- name: Set the packages to install on the target systems
+  set_fact:
+    list_of_packages_to_install:
+      - wget
+      - git
+      - net-tools
+      - bind-utils
+      - iptables-services
+      - bridge-utils
+      - bash-completion
+      - kexec-tools
+      - sos
+      - psacct
+      - docker{{ docker_version_to_install | default('') }}
+      - yum-utils
+
+- name: Append any custom packages to install on the target systems
+  set_fact:
+    list_of_packages_to_install: "{{ list_of_packages_to_install }} +
+                                  {{ additional_list_of_packages_to_install | default([]) }}"

@@ -1,0 +1,5 @@
+---
+- hosts: infra_hosts
+  gather_facts: no
+  roles:
+    - manage-libvirt-infra

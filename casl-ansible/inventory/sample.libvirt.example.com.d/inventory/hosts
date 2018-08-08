@@ -1,0 +1,32 @@
+[infra_hosts]
+cloud-host.local
+
+[infra_vms]
+master.local    infrahost=cloud-host.local 
+infranode.local infrahost=cloud-host.local
+appnode.local   infrahost=cloud-host.local
+
+[cluster_hosts:children]
+OSEv3
+
+[OSEv3:children]
+masters
+nodes
+etcd
+
+[masters:children]
+master.local
+
+[etcd:children]
+master.local
+
+[nodes:children]
+masters
+infra_hosts
+app_hosts
+
+[infra_hosts:children]
+infranode.local
+
+[app_hosts:children]
+appnode.local

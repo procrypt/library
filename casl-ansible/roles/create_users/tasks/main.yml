@@ -1,0 +1,6 @@
+---
+
+- include_tasks: create_users.yml
+  static: no
+  when:
+  - create_users is defined

@@ -1,0 +1,17 @@
+---
+
+#- hosts: seed-hosts
+#  roles:
+#  - ../../galaxy/openshift-ansible-contrib/roles/openshift-pv-cleanup
+
+- import_playbook: openstack/delete.yml
+  when:
+  - hosting_infrastructure == 'openstack'
+
+- import_playbook: aws/delete.yml
+  when:
+  - hosting_infrastructure == 'aws'
+  
+- import_playbook: gcp/delete.yml
+  when:
+  - hosting_infrastructure == 'gcp'  

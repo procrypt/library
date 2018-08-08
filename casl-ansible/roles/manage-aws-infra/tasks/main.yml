@@ -1,0 +1,7 @@
+---
+
+- import_tasks: pre-reqs.yml
+
+- import_tasks: process-cf-template.yml
+
+- import_tasks: manage-cf-stack.yml

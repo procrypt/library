@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  roles:
+    - { role: manage-aws-infra, action: 'present' }
+
+- name: Refresh Server inventory
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+  - meta: refresh_inventory
+  
+- name: Wait for systems to become reachable
+  hosts: cluster_hosts
+  gather_facts: False
+  tasks:
+  - name: Debug hostvar
+    debug:
+      msg: "{{ hostvars[inventory_hostname] }}"
+      verbosity: 2
+  - wait_for_connection:
+      timeout: 300
