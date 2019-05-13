@@ -206,3 +206,13 @@ https://golang.org/doc/effective_go.html
 Cool thing :)
 
 `curl http://wttr.in/~Jaipur`
+
+### The defaults that the json package will decode into when the type isn't declared are:
+```go
+bool, for JSON booleans
+float64, for JSON numbers
+string, for JSON strings
+[]interface{}, for JSON arrays
+map[string]interface{}, for JSON objects
+nil for JSON null
+```
